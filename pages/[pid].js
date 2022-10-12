@@ -19,7 +19,7 @@ export async function getStaticProps(context) {
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
 
-  const product = data.find((product) => product.id === productId);
+  const product = data.products.find((product) => product.id === +productId);
   if (!product) {
     return {
       notFound: true,
@@ -29,6 +29,17 @@ export async function getStaticProps(context) {
     props: {
       product: product,
     },
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { pid: '1' } },
+      { params: { pid: '2' } },
+      { params: { pid: '3' } },
+    ],
+    fallback: false,
   };
 }
 export default ProductDescription;
