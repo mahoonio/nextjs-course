@@ -1,7 +1,19 @@
 {
   "products": [
-    { "id": 1, "title": "product 1" },
-    { "id": 2, "title": "product 2" },
-    { "id": 3, "title": "product 3" }
+    {
+      "id": 1,
+      "title": "product 1",
+      "description": "This is the first product"
+    },
+    {
+      "id": 2,
+      "title": "product 2",
+      "description": "This is the second product"
+    },
+    {
+      "id": 3,
+      "title": "product 3",
+      "description": "This is the third product"
+    }
   ]
 }
