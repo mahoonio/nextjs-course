@@ -1,5 +1,5 @@
-import Link from 'next/link';
-
+import path from 'path';
+import fs from 'fs/promises';
 const HomePage = (props) => {
   const { products } = props;
   return (
@@ -14,7 +14,10 @@ const HomePage = (props) => {
 };
 
 export async function getStaticProps() {
-  const products = [{ id: 1, title: 'product 1' }];
-  return { props: { products } };
+  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
+  const jsonData = await fs.readFile(filePath);
+  const data = JSON.parse(jsonData);
+
+  return { props: { products: data.products } };
 }
 export default HomePage;
