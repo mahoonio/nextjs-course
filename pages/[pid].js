@@ -4,6 +4,9 @@ import { Fragment } from 'react';
 
 const ProductDescription = (props) => {
   const { product } = props;
+  if (!product) {
+    return <p>Loading...</p>;
+  }
   return (
     <Fragment>
       <h1>{product.title}</h1>
@@ -34,12 +37,8 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   return {
-    paths: [
-      { params: { pid: '1' } },
-      { params: { pid: '2' } },
-      { params: { pid: '3' } },
-    ],
-    fallback: false,
+    paths: [{ params: { pid: '1' } }],
+    fallback: true,
   };
 }
 export default ProductDescription;
