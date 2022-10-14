@@ -8,9 +8,9 @@ const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
 const PARSE_JAVASCRIPT_KEY = 'zcp4kj9FtBCxZje3oYhd5QtINYZMaVILHQ7SXoEo';
 Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
-const LastSales = () => {
+const LastSales = (props) => {
   //   const [isLoading, setIsLoading] = useState(false);
-  const [sales, setSales] = useState();
+  const [sales, setSales] = useState(props.sales);
 
   const { data, error } = useSWR(
     'https://jsonplaceholder.typicode.com/users',
@@ -44,7 +44,7 @@ const LastSales = () => {
   if (error) {
     return <p>failed to fetch</p>;
   }
-  if (!data || !sales) {
+  if (!data && !sales) {
     return <p>Loading...</p>;
   }
 
@@ -84,4 +84,24 @@ async function fetchSales() {
 
   return array;
   //   const obj = { name: sale.get('name'), volume: sale.get('volume') };
+}
+
+export async function getStaticProps() {
+  return fetch('https://jsonplaceholder.typicode.com/users', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const transformedData = data.map((user) => ({
+        name: user.name,
+        volume: Math.round(Math.abs(user.address.geo.lat)),
+      }));
+      return {
+        props: {
+          sales: transformedData,
+        },
+      };
+    });
 }
